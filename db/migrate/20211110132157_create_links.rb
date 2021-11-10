@@ -6,6 +6,7 @@ class CreateLinks < ActiveRecord::Migration[6.1]
       t.string :target_url
       t.string :short_url_slug
       t.integer :clicks, default: 0
+      t.string :title
 
       t.timestamps
     end
