@@ -12,4 +12,8 @@ class LinksController < ApplicationController
     link = Link.create(target_url: params[:target_url])
     redirect_to link.target_url
   end
+
+  def show
+    @link = Link.find(params[:id])
+  end
 end
