@@ -7,13 +7,13 @@
           <div data-clipboard-target="element" class="invisible mt-4 p-2 bg-blue-400 items-center leading-none lg:rounded-full flex lg:inline-flex" role="alert">
             <span class="text-white font-semibold mx-2 text-left flex-auto">Copied!</span>
           </div>
-          <div class="p-2 mt-2 transition duration-500 ease-in-out transform border2 bg-gray-50 md:mx-auto rounded-xl sm:max-w-lg sm:flex">
-            <div class="flex-1 w-80 revue-form-group" data-action="click->clipboard#redirect">
-              <input readonly data-clipboard-target="source" id="shortLink" value="<%= @link.short_url %>" class="block cursor-pointer w-full px-5 py-3 text-base text-indigo-600 transition duration-500 ease-in-out transform bg-transparent border border-transparent rounded-md  text-neutral-600 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300" placeholder="Enter your email">
+          <div class="p-2 mt-2 transition duration-500 ease-in-out transform border2 bg-gray-50 md:mx-auto rounded-xl sm:max-w-96 sm:flex">
+            <div class="flex-1" data-action="click->clipboard#redirect">
+              <input readonly data-clipboard-target="source" id="shortLink" value="<%= @link.short_url %>" class="block cursor-pointer w-120 px-5 py-3 text-base text-indigo-600 transition duration-500 ease-in-out transform bg-transparent border border-transparent rounded-md  text-neutral-600 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300" placeholder="Enter your email">
             </div>
-            <div class="mt-4 sm:mt-0 sm:ml-3 revue-form-actions">
+            <div class="mt-4 sm:mt-0 sm:ml-3">
               <button data-action="clipboard#copy"
-              class="block w-full px-5 py-3 text-base font-medium text-white bg-blue-400 border border-transparent 
+              class="block whitespace-nowrap w-full px-5 py-3 text-base font-medium text-white bg-blue-400 border border-transparent 
               rounded-lg shadow  hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2
             focus:ring-offset-gray-300 sm:px-10"> Copy link </button>
             </div>
