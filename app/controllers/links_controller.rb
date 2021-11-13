@@ -16,6 +16,7 @@ class LinksController < ApplicationController
 
   def show
     @link = Link.find(params[:id])
+    @stats = Stat.where(link_id: @link.id)
   end
 
   private
