@@ -1,0 +1,12 @@
+<% index = stat_counter + 1 %>
+<tr>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <%= index %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <%= stat.timestamp.in_time_zone(Rails.application.config.time_zone).strftime('%-l:%M %p, %a %d/%m/%Y') %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <%= stat.location %>
+  </td>
+</tr>

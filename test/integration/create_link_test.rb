@@ -18,22 +18,4 @@ class CreateLinkTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_match 'CoinGecko', response.body
   end
-
-  test 'redirect to target url from shortened url' do
-    get "/u/#{@link.short_url_slug}"
-    assert_response :redirect
-
-    follow_redirect!
-
-    assert_equal 'www.coingecko.com', host
-  end
-
-  test 'view link page' do
-    get "/links/#{@link.id}"
-
-    assert_response :success
-    assert_match @link.title, response.body
-    assert_match @link.short_url, response.body
-    assert_match @link.target_url, response.body
-  end
 end
