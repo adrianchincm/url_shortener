@@ -43,4 +43,9 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
     get link_url(@link)
     assert_response :success
   end
+
+  test 'should show stats/links index page' do
+    get links_url
+    assert_response :success
+  end
 end
