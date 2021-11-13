@@ -19,6 +19,10 @@ class LinksController < ApplicationController
     @stats = Stat.where(link_id: @link.id)
   end
 
+  def index
+    @links = Link.all
+  end
+
   private
 
   def increment_click(link)

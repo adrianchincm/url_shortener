@@ -1,0 +1,14 @@
+<% index = link_counter + 1 %>
+<tr>
+  <td class="text-gray-400 px-6 py-4 whitespace-nowrap">
+    <%= index %>
+  </td>
+  <td class="px-6 text-indigo-600 cursor-pointer py-4 whitespace-nowrap hover:underline">
+    <%= link_to link_path(link) do %>
+      <%= link.title %>
+    <% end %>
+  </td>
+  <td class="px-6 py-4 text-right whitespace-nowrap font-semibold">
+    <%= link.clicks %>
+  </td>
+</tr>
