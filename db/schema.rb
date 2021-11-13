@@ -12,12 +12,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_211_110_132_157) do
+ActiveRecord::Schema.define(version: 20_211_113_031_353) do
   create_table 'links', force: :cascade do |t|
     t.string 'target_url'
     t.string 'short_url_slug'
     t.integer 'clicks', default: 0
     t.string 'title'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+  end
+
+  create_table 'stats', force: :cascade do |t|
+    t.integer 'link_id'
+    t.datetime 'timestamp'
+    t.string 'location'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
   end

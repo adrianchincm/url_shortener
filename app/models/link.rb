@@ -7,7 +7,7 @@ class Link < ApplicationRecord
   validates_presence_of :target_url
   validates :target_url, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
   validates_uniqueness_of :short_url_slug
-  before_validation :generate_short_url, :get_link_title
+  before_validation :generate_short_url, :get_link_title, on: :create
 
   def generate_short_url
     self.short_url_slug = SecureRandom.alphanumeric(8)
