@@ -3,8 +3,9 @@
 class LinksController < ApplicationController
   def redirect
     slug = params[:slug]
-    link = Link.find_by(short_url_slug: slug)    
+    link = Link.find_by(short_url_slug: slug)
     increment_click(link)
+    create_stat(link.id)
     redirect_to link.target_url
   end
 
@@ -22,5 +23,10 @@ class LinksController < ApplicationController
   def increment_click(link)
     link.clicks += 1
     link.save
+  end
+
+  def create_stat(link_id)
+    geocode = Geocoder.search(get_ip)
+    Stat.create(link_id: link_id, location: "#{geocode.first.city}, #{geocode.first.country}", timestamp: Time.now)
   end
 end
