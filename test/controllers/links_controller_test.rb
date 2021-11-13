@@ -13,6 +13,26 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to @link.target_url
   end
 
+  test 'should redirect to target url and create a stat model' do
+    assert_difference 'Stat.count', 1 do
+      get short_url(@link.short_url_slug)
+      assert_response :redirect
+      assert_redirected_to @link.target_url
+    end
+
+    assert_equal @link.id, Stat.last.link_id
+    assert_not_nil Stat.last.timestamp
+    assert_not_nil Stat.last.location
+  end
+
+  test 'should redirect to target url and increase click count' do
+    assert_difference 'Link.last.clicks', 1 do
+      get short_url(@link.short_url_slug)
+      assert_response :redirect
+      assert_redirected_to @link.target_url
+    end
+  end
+
   test 'should create link and redirect to link page' do
     post links_url(target_url: 'https://www.google.com')
 
