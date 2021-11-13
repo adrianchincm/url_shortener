@@ -30,7 +30,11 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <%= render @stats %>
+              <% if @stats.length == 0 %>
+                <tr> <td class="p-4 text-gray-400">There's no clicks on this link yet</td> </tr>
+              <% else %>
+                <%= render @stats %>
+              <% end %>
             </tbody>
           </table>
         </div>
