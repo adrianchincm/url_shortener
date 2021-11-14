@@ -5,7 +5,7 @@
       <%= image_tag 'cursor.png', class: "w-12 h-12 mb-3 inline-block" %>
       <div>
         <h2 class="text-blue-600 font-medium text-3xl"><%= @link.clicks %></h2>
-        <p class="leading-relaxed">Clicks</p>
+        <p class="leading-relaxed"><%= "Click".pluralize(@link.clicks) %></p>
       </div>
     </div>
   </div>
