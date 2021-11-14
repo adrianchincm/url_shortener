@@ -1,12 +1,11 @@
 <div class="relative items-center w-full px-5 py-3 mx-auto  md:px-12 lg:px-16 max-w-7xl lg:py-6">
-  
-<div class="flex text-bottom space-x-8 mb-4">
+  <div class="flex text-bottom space-x-8 mb-4">
     <div class="self-end text-3xl font-semibold">Stats</div>
     <div class="flex w-40 text-center border-2 border-gray-200 px-4 py-6 rounded-lg space-x-4">
       <%= image_tag 'cursor.png', class: "w-12 h-12 mb-3 inline-block" %>
       <div>
-      <h2 class="text-blue-600 font-medium text-3xl"><%= @link.clicks %></h2>
-      <p class="leading-relaxed">Clicks</p>
+        <h2 class="text-blue-600 font-medium text-3xl"><%= @link.clicks %></h2>
+        <p class="leading-relaxed">Clicks</p>
       </div>
     </div>
   </div>
@@ -30,7 +29,9 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <% if @stats.length == 0 %>
-                <tr> <td class="p-4 text-gray-400">There's no clicks on this link yet</td> </tr>
+                <tr>
+                  <td class="p-4 text-gray-400">There's no clicks on this link yet</td>
+                </tr>
               <% else %>
                 <%= render @stats %>
               <% end %>
