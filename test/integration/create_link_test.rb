@@ -3,10 +3,6 @@
 require 'test_helper'
 
 class CreateLinkTest < ActionDispatch::IntegrationTest
-  setup do
-    @link = Link.create(target_url: 'https://www.coingecko.com')
-  end
-
   test 'create shortened link and go to link page' do
     get '/'
     assert_response :success

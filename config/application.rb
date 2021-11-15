@@ -19,6 +19,7 @@ module UrlShortener
     # in config/environments, which are processed later.
     #
     config.time_zone = 'Kuala Lumpur'
+    config.autoload_paths += Dir[File.join(Rails.root, 'app', 'models', 'validators')]
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

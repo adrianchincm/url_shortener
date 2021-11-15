@@ -10,4 +10,12 @@ class ApplicationController < ActionController::Base
       Net::HTTP.get(URI.parse('http://checkip.amazonaws.com/')).squish
     end
   end
+
+  def get_url_title
+    title = Nokogiri::HTML::Document.parse(HTTParty.get(params[:target_url]).body).title
+  rescue StandardError
+    title = nil
+  ensure
+    return title
+  end
 end
