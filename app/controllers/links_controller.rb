@@ -10,8 +10,13 @@ class LinksController < ApplicationController
   end
 
   def create
-    link = Link.create(target_url: params[:target_url])
-    redirect_to link_path(link)
+    link = Link.new(target_url: params[:target_url])
+    if link.save
+      redirect_to link_path(link)
+    else
+      flash[:error] = "'#{link.target_url}' is not a valid URL"
+      redirect_back(fallback_location: root_path)
+    end
   end
 
   def show
