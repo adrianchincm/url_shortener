@@ -4,28 +4,19 @@ require 'test_helper'
 
 class LinkTest < ActiveSupport::TestCase
   def setup
-    @link = Link.new(target_url: 'https://www.coingecko.com')
+    @link = Link.new(target_url: 'https://www.coingecko.com', title: Nokogiri::HTML::Document.parse(HTTParty.get('https://www.coingecko.com').body).title)
   end
 
   test 'link should be valid' do
     assert @link.valid?
   end
 
-  test 'target url should be present' do
-    @link.target_url = ''
-    assert_raise(Errno::ECONNREFUSED) do
-      @link.save
-    end
+  test 'target url should fail if no target_url' do
+    link = Link.new
+    assert_not link.valid?
   end
 
-  test 'target url should be in proper format' do
-    @link.target_url = 'coingecko.com'
-    assert_raise(Errno::ECONNREFUSED) do
-      @link.save
-    end
-  end
-
-  test 'target url should save successfully when in proper format' do
+  test 'shortened link should save successfully' do
     @link.save
     assert_not_empty @link.target_url
     assert_not_empty @link.short_url_slug

@@ -4,7 +4,7 @@ require 'test_helper'
 
 class LinksControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @link = Link.create(target_url: 'https://www.coingecko.com')
+    @link = Link.create(target_url: 'https://www.coingecko.com', title: Nokogiri::HTML::Document.parse(HTTParty.get('https://www.coingecko.com').body).title)
   end
 
   test 'should redirect to target url' do
@@ -37,6 +37,11 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
     post links_url(target_url: 'https://www.google.com')
 
     assert_redirected_to link_path(Link.last)
+  end
+
+  test 'should refresh page when target_url is invalid' do
+    post links_url(target_url: 'invalid_url')
+    assert_redirected_to '/'
   end
 
   test 'should show link page' do

@@ -4,7 +4,7 @@ require 'test_helper'
 
 class RedirectLinkTest < ActionDispatch::IntegrationTest
   setup do
-    @link = Link.create(target_url: 'https://www.coingecko.com')
+    @link = Link.create(target_url: 'https://www.coingecko.com', title: Nokogiri::HTML::Document.parse(HTTParty.get('https://www.coingecko.com').body).title)
   end
 
   test 'redirect to target url from shortened url' do

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'httparty'
+require 'nokogiri'
+
 class LinksController < ApplicationController
   def redirect
     slug = params[:slug]
@@ -10,11 +13,11 @@ class LinksController < ApplicationController
   end
 
   def create
-    link = Link.new(target_url: params[:target_url])
-    if link.save
+    if !get_url_title.nil?
+      link = Link.create(target_url: params[:target_url], title: get_url_title)
       redirect_to link_path(link)
     else
-      flash[:error] = "'#{link.target_url}' is not a valid URL"
+      flash[:error] = "'#{params[:target_url]}' is not a valid URL"
       redirect_back(fallback_location: root_path)
     end
   end
