@@ -13,12 +13,11 @@ class LinksController < ApplicationController
   end
 
   def create
-    if !get_url_title.nil?
-      link = Link.create(target_url: params[:target_url], title: get_url_title)
-      redirect_to link_path(link)
+    link = Link.new(target_url: params[:target_url], title: get_url_title)
+    if !link.title.nil?
+      save_link(link)
     else
-      flash[:error] = "'#{params[:target_url]}' is not a valid URL"
-      redirect_back(fallback_location: root_path)
+      show_invalid_url_error
     end
   end
 
@@ -32,6 +31,25 @@ class LinksController < ApplicationController
   end
 
   private
+
+  def show_invalid_url_error
+    flash[:error] = "'#{params[:target_url]}' is not a valid URL"
+    redirect_back(fallback_location: root_path)
+  end
+
+  def save_link(link, retry_count = 0)
+    max_retry = 3
+
+    if link.save
+      redirect_to link_path(link)
+    elsif retry_count <= max_retry
+      retry_count += 1
+      save_link(link, retry_count)
+    else
+      flash[:error] = link.errors
+      redirect_back(fallback_location: root_path)
+    end
+  end
 
   def increment_click(link)
     link.clicks += 1
