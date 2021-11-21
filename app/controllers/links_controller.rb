@@ -56,8 +56,7 @@ class LinksController < ApplicationController
     link.save
   end
 
-  def create_stat(link_id)
-    geocode = Geocoder.search(get_ip)
-    Stat.create(link_id: link_id, location: "#{geocode.first.city}, #{geocode.first.country}", timestamp: Time.now)
+  def create_stat(link_id)    
+    StatsWorker.perform_async(link_id, Time.current, get_ip)
   end
 end
