@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-require 'httparty'
-require 'nokogiri'
-
 class LinksController < ApplicationController
   def redirect
-    slug = params[:slug]
-    link = Link.find_by(short_url_slug: slug)
-    increment_click(link)
-    create_stat(link.id)
-    redirect_to link.target_url
+    link = LinkRedirector.call(params[:slug], get_ip)
+    if link.nil?
+      show_invalid_slug_error
+    else
+      redirect_to link.target_url
+    end
   end
 
   def create
@@ -37,28 +35,19 @@ class LinksController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  # move to service object, return link if can, return nil if error
-  def save_link(title, retry_count = 0)
-    link = Link.new(target_url: params[:target_url], title: title)
-    max_retry = 3
+  def show_invalid_slug_error
+    flash[:error] = "'#{params[:slug]}' is not a valid short url slug"
+    redirect_back(fallback_location: root_path)
+  end
 
-    if link.save
-      redirect_to link_path(link)
-    elsif retry_count <= max_retry
-      retry_count += 1
-      save_link(title, retry_count)
-    else
-      flash[:error] = link.errors
+  def save_link(title)
+    link = LinkCreator.call(params[:target_url], title)
+
+    if link.nil?
+      flash[:error] = 'Unable to generate short url slug'
       redirect_back(fallback_location: root_path)
+    else
+      redirect_to link_path(link)
     end
-  end
-
-  def increment_click(link)
-    link.clicks += 1
-    link.save
-  end
-
-  def create_stat(link_id)
-    StatsWorker.perform_async(link_id, Time.current, get_ip)
   end
 end
