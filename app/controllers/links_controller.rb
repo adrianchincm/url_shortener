@@ -13,9 +13,9 @@ class LinksController < ApplicationController
   end
 
   def create
-    link = Link.new(target_url: params[:target_url], title: get_url_title)
-    if !link.title.nil?
-      save_link(link)
+    title = get_url_title
+    if !title.nil?
+      save_link(title)
     else
       show_invalid_url_error
     end
@@ -37,14 +37,16 @@ class LinksController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  def save_link(link, retry_count = 0)
+  # move to service object, return link if can, return nil if error
+  def save_link(title, retry_count = 0)
+    link = Link.new(target_url: params[:target_url], title: title)
     max_retry = 3
 
     if link.save
       redirect_to link_path(link)
     elsif retry_count <= max_retry
       retry_count += 1
-      save_link(link, retry_count)
+      save_link(title, retry_count)
     else
       flash[:error] = link.errors
       redirect_back(fallback_location: root_path)
@@ -56,7 +58,7 @@ class LinksController < ApplicationController
     link.save
   end
 
-  def create_stat(link_id)    
+  def create_stat(link_id)
     StatsWorker.perform_async(link_id, Time.current, get_ip)
   end
 end
